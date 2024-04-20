@@ -4,6 +4,7 @@ import User from './../models/user.schema.js';
 import {ApiResponse} from './../utils/ApiResponse.js';
 import {ApiError} from './../utils/ApiError.js';
 import {uploadOnCloudinary} from './../utils/cloudinary.js';
+import Comment from './../models/commnet.schema.js';
 
 // * Fetch Post
 export const fetchPost = asyncHandler(async (req, res) => {
@@ -41,8 +42,8 @@ export const createPost = asyncHandler(async (req, res) => {
 
 // * Add comment
 export const addComment = asyncHandler(async (req, res) => {
-    const postId = req.params;
-    const comment = req.body;
+    const postId = req.params.id;
+    const review = req.body?.review;
     const post = await Post.findOne({_id: postId});
     if (!post) {
         throw new ApiError(404, 'Post not found');
@@ -51,11 +52,11 @@ export const addComment = asyncHandler(async (req, res) => {
     const newComment = await Comment.create({
         userId: req.user.id,
         postId: req.params.id,
-        review: comment,
+        review: review,
     });
 
-    post.comment.push(newComment);
-    await Post.save();
+    post.comment.push(newComment._id);
+    await post.save();
     console.log(post);
     res.status(200).json(new ApiResponse(200, post, 'Comment Submitted'));
 });
@@ -63,28 +64,45 @@ export const addComment = asyncHandler(async (req, res) => {
 // * Save Post
 export const savePost = asyncHandler(async (req, res) => {
     const postId = req?.params.id;
+    console.log(postId);
     const userId = req?.user.id;
     const post = await Post.findOne({_id: postId});
+    console.log(post);
     const user = await User.findOne({_id: userId});
     if (!postId && !userId) {
         throw new Error(404, 'Something is missing');
     }
 
-    user.savedPost.push(post);
+    user.savedPost.push(post._id);
     await user.save();
     console.log(user);
 
     res.status(200).json(new ApiResponse(200, 'Post saved successfully'));
 });
 
+// * Fetch Save Post
 export const fetchSavePost = asyncHandler(async (req, res) => {
     const userId = req.user.id;
-    const user = await User.findOne({_id: userId}).populate('savedPost');
+    const user = await User.findOne({_id: userId});
     if (!user) {
         throw new ApiError(404, 'User not found');
     }
     console.log(user.savedPost || 1);
     res.status(200).json(
         new ApiResponse(200, user, 'Save post fetch successfully'),
+    );
+});
+
+export const showPost = asyncHandler(async (req, res) => {
+    const postId = req.params.id;
+    const post = await Post.findOne({_id: postId});
+    console.log(post);
+
+    if (!post) {
+        throw new ApiError(404, 'Post not found');
+    }
+
+    res.status(200).json(
+        new ApiResponse(200, post, 'Product fetch successfully'),
     );
 });

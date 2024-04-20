@@ -19,6 +19,9 @@ const postSchema = new Schema(
         description: {
             type: String,
         },
+        category: {
+            type: String,
+        },
         comment: [
             {
                 type: Schema.Types.ObjectId,
@@ -31,6 +34,6 @@ const postSchema = new Schema(
     },
 );
 
-const Post = mongoose.model('Product', postSchema);
+const Post = mongoose.model('Post', postSchema);
 
 export default Post;
