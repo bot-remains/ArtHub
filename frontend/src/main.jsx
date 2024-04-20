@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 import Root from "./Root.jsx";
+import Home from "./Pages/Home.jsx";
 import "./index.css";
 
 const router = createBrowserRouter(

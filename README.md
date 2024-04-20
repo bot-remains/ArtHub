@@ -1,1 +1,1 @@
-# paintor.io
+# artor
