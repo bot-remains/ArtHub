@@ -1,88 +1,82 @@
-import React from "react";
-import image from "../../Public/flowers.jpg";
+import React, {useState, useEffect} from "react";
+import {RiArrowLeftSLine, RiArrowRightSLine} from "react-icons/ri";
 import CouroselItem from "./CouroselItem";
-function Courosel() {
+
+function Courosel({images}) {
+  const [idx, setIdx] = useState(0);
+  const [intervalId, setIntervalId] = useState(null);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIdx((prevIdx) => (prevIdx === images.length - 1 ? 0 : prevIdx + 1));
+    }, 5000);
+
+    setIntervalId(id);
+
+    return () => clearInterval(id);
+  }, [images.length, idx]);
+
+  const scrollLeft = () => {
+    clearInterval(intervalId);
+    idx === 0 ? setIdx(images.length - 1) : setIdx(idx - 1);
+  };
+
+  const scrollRight = () => {
+    clearInterval(intervalId);
+    idx === images.length - 1 ? setIdx(0) : setIdx(idx + 1);
+  };
+
+  const styles = {
+    backgroundImage: `
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.7) 25%,
+        rgba(0, 0, 0, 0.875) 80%
+      ),
+      url(${images[idx].url})
+    `,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+  };
+
   return (
-    <div className="main_2 clearfix" style={{height: "600px"}}>
-      <section id="center" className="center_home">
-        <div
-          id="carouselExampleCaptions"
-          className="carousel slide"
-          data-bs-ride="carousel"
-        >
-          <div className="carousel-indicators">
-            <button
-              type="button"
-              data-bs-target="#carouselExampleCaptions"
-              data-bs-slide-to="0"
-              className="active"
-              aria-label="Slide 1"
-            ></button>
-            <button
-              type="button"
-              data-bs-target="#carouselExampleCaptions"
-              data-bs-slide-to="1"
-              aria-label="Slide 2"
-              className=""
-              aria-current="true"
-            ></button>
-            <button
-              type="button"
-              data-bs-target="#carouselExampleCaptions"
-              data-bs-slide-to="2"
-              aria-label="Slide 3"
-            ></button>
-          </div>
-          <div className="carousel-inner">
-            <CouroselItem
-              header={"Trending Art Picture"}
-              secondaryHeader={"Always something New"}
-              description={
-                "Discover the pulse of contemporary art with our Trending Art Pictures collection. Featuring captivating works that push boundaries and ignite conversation, each piece reflects the latest artistic currents and societal themes. From bold expressions of emotion to thought-provoking commentary on the modern world, these trending artworks are a testament to creativity's ever-evolving nature. Dive into this dynamic showcase and experience the vibrant energy of today's artistic landscape."
-              }
-              active={true}
+    <div className="w-full h-[85vh] relative overflow-hidden">
+      <div
+        onClick={scrollLeft}
+        className="text-6xl text-zinc-500 hover:text-white transition-all duration-300 px-2 py-5 select-none h-[80px] z-20 absolute left-0 top-1/2 transform -translate-y-1/2 cursor-pointer flex justify-start items-center rounded-r-xl "
+      >
+        <RiArrowLeftSLine />
+      </div>
+      <div
+        onClick={scrollRight}
+        className="text-6xl text-zinc-500 hover:text-white transition-all duration-300 px-2 py-5 select-none h-[80px] z-20 absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer flex justify-start items-center rounded-l-xl "
+      >
+        <RiArrowRightSLine />
+      </div>
+      <div style={styles} className="w-full h-full"></div>
+
+      <div className="absolute top-[20%] left-[10%] ">
+        <CouroselItem
+          key={idx}
+          header={images[idx].header}
+          secondaryHeader={images[idx].secondaryHeader}
+          description={images[idx].description}
+        />
+      </div>
+
+      <div className="px-16 py-6 absolute bottom-0 w-full flex flex-wrap justify-center items-center gap-6 gap-x-10">
+        <div className="flex items-center justify-center absolute top-[-15%] left-1/2 transform -translate-x-1/2 gap-2 text-xs">
+          {images.map((_, i) => (
+            <div
+              key={i}
+              onClick={() => setIdx(i)}
+              className={`cursor-pointer w-7 h-1 bg-secondary ${
+                idx === i ? "opacity-100" : "opacity-50"
+              }`}
             />
-            <CouroselItem
-              header={"Beauty Nature"}
-              secondaryHeader={"Scenary"}
-              description={
-                "Immerse yourself in the breathtaking allure of nature's artistry at our gallery. From the vibrant hues of a sunrise painting the sky to the delicate intricacies of a flower in bloom, each piece celebrates the boundless beauty of the natural world. Let the wonders of nature inspire and captivate you as you explore our collection."
-              }
-            />
-            <CouroselItem
-              header={"Other Type Painting"}
-              secondaryHeader={"Sketches"}
-              description={
-                "Explore the charm and tranquility of our Sketches section, where each stroke breathes life into scenes of natural wonder. From serene landscapes to delicate botanical studies, these sketches encapsulate the beauty of the world around us in its purest form. Immerse yourself in the simplicity and elegance of these artworks, each one a testament to the artist's keen eye and appreciation for nature's grace."
-              }
-            />
-          </div>
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="prev"
-          >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Next</span>
-          </button>
+          ))}
         </div>
-      </section>
+      </div>
     </div>
   );
 }

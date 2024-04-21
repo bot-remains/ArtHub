@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import List from "./List";
+import {FaPencilAlt} from "react-icons/fa";
 import {useLocation} from "react-router-dom";
 
 import SignInButton from "./SignInButton.jsx";
@@ -14,7 +15,8 @@ function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex justify-center items-center">
           <Link to="/" className="text-2xl font-bold flex ">
-            <p className="text-white">ART</p>
+            <FaPencilAlt className="text-secondary" />
+            <p className="text-white">&nbsp; ART</p>
             <p className="text-secondary">HUB</p>
           </Link>
         </div>

@@ -1,10 +1,10 @@
 {
-  "tabWidth": 2,
-  "printWidth": 80,
-  "singleQuote": false,
-  "semi": true,
-  "trailingComma": "all",
-  "endOfLine": "auto",
-  "bracketSpacing": false,
-  "ignore": ["**/node_modules/**", "**/dist/**"]
+    "tabWidth": 2,
+    "printWidth": 80,
+    "singleQuote": false,
+    "semi": true,
+    "trailingComma": "all",
+    "endOfLine": "auto",
+    "bracketSpacing": false,
+    "ignore": ["**/node_modules/**", "**/dist/**"]
 }
