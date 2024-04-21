@@ -30,8 +30,8 @@ function Courosel({images}) {
     backgroundImage: `
       linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 0.7) 25%,
-        rgba(0, 0, 0, 0.875) 80%
+        rgba(0, 0, 0, 0.5) 25%,
+        rgba(0, 0, 0, 0.6) 80%
       ),
       url(${images[idx].url})
     `,
@@ -40,7 +40,7 @@ function Courosel({images}) {
   };
 
   return (
-    <div className="w-full h-[85vh] relative overflow-hidden">
+    <div className="w-full h-[88vh] relative overflow-hidden">
       <div
         onClick={scrollLeft}
         className="text-6xl text-zinc-500 hover:text-white transition-all duration-300 px-2 py-5 select-none h-[80px] z-20 absolute left-0 top-1/2 transform -translate-y-1/2 cursor-pointer flex justify-start items-center rounded-r-xl "

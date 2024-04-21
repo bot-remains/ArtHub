@@ -20,7 +20,6 @@ function Navbar() {
             <p className="text-secondary">HUB</p>
           </Link>
         </div>
-
         <div className="flex justify-between items-center ">
           <ul className="flex space-x-8 items-center">
             <List goto="/" content="Home" />

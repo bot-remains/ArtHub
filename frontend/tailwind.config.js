@@ -7,6 +7,9 @@ export default {
         primary: "var(--primary-color)",
         secondary: "var(--secondary-color)",
       },
+      backgroundImage: {
+        "category-bg": "url('./src/Public/bg.jpg')",
+      },
     },
   },
   plugins: [],

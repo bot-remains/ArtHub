@@ -8,7 +8,7 @@ function CouroselItem({header, secondaryHeader, description}) {
         <h4 className="text-2xl mt-4 font-medium">{secondaryHeader}</h4>
         <p className="mt-4 line-clamp-5">{description}</p>
       </div>
-      <div className="mt-6 flex items-center h-[48px] group">
+      <div className="mt-6 flex items-center h-[48px] group w-fit">
         <span className="bg-white text-secondary text-lg h-[48px] w-[48px] flex justify-center items-center transition-all duration-500 group-hover:bg-secondary group-hover:text-white">
           <FaBullhorn />
         </span>

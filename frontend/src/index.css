@@ -18,4 +18,24 @@
 body {
   padding-top: 72px;
   overflow: hidden;
+  background-color: var(--primary-color);
+  /* color: white; */
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ccc;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #cccccc57;
+  border-radius: 10px;
 }

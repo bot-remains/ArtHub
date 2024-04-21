@@ -1,5 +1,6 @@
 import React from "react";
 import Courosel from "../Components/Courosel/Courosel.jsx";
+import Category from "../Components/Category/Category.jsx";
 
 function Home() {
   const images = [
@@ -21,6 +22,7 @@ function Home() {
   return (
     <>
       <Courosel images={images} />
+      <Category />
     </>
   );
 }

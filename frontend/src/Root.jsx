@@ -5,7 +5,7 @@ function Root() {
   return (
     <>
       <Navbar />
-      <div>
+      <div className="overflow-y-auto max-h-[90vh] px-4">
         <Outlet />
       </div>
     </>
