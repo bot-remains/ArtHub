@@ -7,12 +7,6 @@ import {
 } from "react-icons/pi";
 
 function About() {
-  const backgroundImage = {
-    backgroundImage: `url("https://res.cloudinary.com/djdegiywz/image/upload/v1713954489/wvcskast73pa2q9w0e34.jpg")`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-  };
-
   return (
     <div className="w-full text-white flex flex-col justify-between gap-16">
       <div className="w-[90%] flex aling-start">
