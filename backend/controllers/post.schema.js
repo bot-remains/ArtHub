@@ -15,7 +15,7 @@ export const fetchPost = asyncHandler(async (req, res) => {
 
 // * Create Post
 export const createPost = asyncHandler(async (req, res) => {
-  const {postName, description} = req?.body;
+  const {postName, category, description} = req?.body;
   const userId = req.user.id;
   console.log(userId);
   const user = await User.findOne({_id: userId});
@@ -33,6 +33,7 @@ export const createPost = asyncHandler(async (req, res) => {
   const newPost = new Post({
     postName,
     description,
+    category,
     image: coverImage?.url,
     userId: user._id,
   });
