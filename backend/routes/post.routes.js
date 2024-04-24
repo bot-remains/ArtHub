@@ -1,5 +1,6 @@
 import express from "express";
 import validateToken from "./../middlewares/validateUser.js";
+import {upload} from "./../middlewares/multer.js";
 import {
   addComment,
   createPost,
@@ -14,7 +15,7 @@ const router = express.Router();
 router.get("/fetchPost", fetchPost);
 
 // * Create Post
-router.post("/createPost", validateToken, createPost);
+router.post("/createPost", validateToken, upload, createPost);
 
 // * Add comment
 router.post("/addComment/:id", validateToken, addComment);

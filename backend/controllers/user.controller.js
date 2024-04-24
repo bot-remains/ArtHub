@@ -52,7 +52,7 @@ export const signUp = asyncHandler(async (req, res) => {
 export const logIn = asyncHandler(async (req, res) => {
   const {email, password} = req.body;
   const user = await User.findOne({email: email});
-
+  console.log(email, password);
   if (!user || !(await bcrypt.compare(password, user.password))) {
     throw new ApiError(401, "Invalid Details");
   }

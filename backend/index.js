@@ -1,4 +1,6 @@
 import express from "express";
+import bodyParser from "body-parser";
+import expressBusboy from "express-busboy";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -11,29 +13,31 @@ import postRoutes from "./routes/post.routes.js";
 // const PORT = process.env.PORT || 3000;
 const PORT = 3000;
 const app = express();
-
+// expressBusboy.extend(app);
 //Middlewares
 dotenv.config({
   path: "./.env",
 });
 
+// app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 
 //Cors Configuration
-// const corsOptions = {
-//     origin: function (origin, callback) {
-//         callback(
-//             null,
-//             (origin && origin.startsWith(process.env.CORS_ORIGIN)) || '*',
-//         );
-//     },
-//     credentials: true,
-// };
+const corsOptions = {
+  origin: function (origin, callback) {
+    callback(
+      null,
+      (origin && origin.startsWith(process.env.CORS_ORIGIN)) || "*",
+    );
+  },
+  credentials: true,
+};
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
   if (req.path !== "/favicon.ico") {
