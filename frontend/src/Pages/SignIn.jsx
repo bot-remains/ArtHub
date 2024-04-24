@@ -1,9 +1,12 @@
 import React from "react";
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
 import Input from "../Components/Input/Input";
 import Password from "../Components/Password/Password";
 import Button from "../Components/Button/Button";
+
+import {IoHomeOutline} from "react-icons/io5";
 
 function SignIn() {
   let [data, setData] = useState({
@@ -19,13 +22,19 @@ function SignIn() {
     backgroundSize: "cover",
   };
   return (
-    <div className="w-full flex justify-center items-center text-white">
+    <div className="w-full h-screen flex justify-center items-center text-white">
       <div className="w-[60%] h-[80vh] rounded-lg flex">
         <div
           className="w-[50%] h-full rounded-l-lg"
           style={backgroundImage}
         ></div>
-        <div className="rounded-r-lg border-2 border-zinc-600 p-10 pl-16 w-[50%] flex flex-col justify-center">
+        <div className="rounded-r-lg border-2 border-zinc-600 p-10 pl-16 w-[50%] flex flex-col justify-center relative">
+          <Link
+            to="/"
+            className="absolute top-5 right-5 border-[2px] border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center cursor-pointer group hover:border-secondary"
+          >
+            <IoHomeOutline className="group-hover:text-secondary" />
+          </Link>
           <div className="w-fit">
             <h1 className="text-4xl">Sign In</h1>
             <hr className="border-secondary border rounded" />
