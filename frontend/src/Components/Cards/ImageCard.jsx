@@ -18,11 +18,11 @@ function ImageCard({imageUrl}) {
           </div>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <div className="border-[2px] border-zinc-400  rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-sky-300">
-            <FaShare className="group-hover:text-sky-300" />
+          <div className="border-[2px] border-zinc-400  rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
+            <FaShare className="group-hover:text-secondary" />
           </div>
-          <div className="border-[2px] border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-green-400">
-            <FaPlus className="group-hover:text-green-400" />
+          <div className="border-[2px] border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
+            <FaPlus className="group-hover:text-secondary" />
           </div>
         </div>
       </div>
@@ -34,8 +34,8 @@ function ImageCard({imageUrl}) {
           ></div>
           <div className="text">name</div>
         </div>
-        <div className="border-[2px] text-sm text-zinc-400 border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-green-400">
-          <FaArrowDown className="group-hover:text-green-400" />
+        <div className="border-[2px] text-sm text-zinc-400 border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
+          <FaArrowDown className="group-hover:text-secondary" />
         </div>
       </div>
       <img src={imageUrl} className="w-[400px]" />

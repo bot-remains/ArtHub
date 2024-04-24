@@ -34,7 +34,7 @@ const router = createBrowserRouter(
       <Route path="signup" element={<SignUp />} />
       <Route path="my-arts" element={<MyArts />} />
       <Route path="contact" element={<Contact />} />
-      <Route path="createPost" element={<CreatePost />} />
+      <Route path="create-post" element={<CreatePost />} />
     </Route>,
   ),
 );
