@@ -9,7 +9,7 @@ function ImageCard({imageUrl}) {
   };
 
   return (
-    <div className="w-fit h-fit border-[10px] cursor-pointer relative group/card">
+    <div className="w-fit border-[10px] cursor-pointer relative group/card">
       <div className="w-full h-full absolute top-0 z-10 bg-black opacity-50 hidden group-hover/card:block"></div>
       <div className="absolute w-full text-sm text-zinc-400 p-3 top-0 z-20 bg-gradient-to-b from-black hidden group-hover/card:flex justify-between ">
         <div className="flex items-center justify-start ">
@@ -38,7 +38,7 @@ function ImageCard({imageUrl}) {
           <FaArrowDown className="group-hover:text-secondary" />
         </div>
       </div>
-      <img src={imageUrl} className="w-[400px]" />
+      <img src={imageUrl} className="w-[350px]" />
     </div>
   );
 }

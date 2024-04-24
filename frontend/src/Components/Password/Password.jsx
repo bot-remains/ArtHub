@@ -5,7 +5,7 @@ function Password({label, placeholder, value, handler}) {
   let [showPassword, setShowPassword] = useState(false);
   return (
     <div className="w-full">
-      <label htmlFor={label} className="block text-zinc-400 text-lg">
+      <label htmlFor={label} className="block text-white text-lg">
         {label}
       </label>
       <div className="relative w-full">

@@ -54,7 +54,7 @@ function Footer() {
         <div className="w-[425px]">
           <hr className="w-[55px] border-secondary border-2 rounded" />
           <form onSubmit={handleSubmit} className="mt-2">
-            <label htmlFor="feedback" className="block text-zinc-400 text-xl">
+            <label htmlFor="feedback" className="block text-white text-xl">
               How was your experience?
             </label>
             <textarea

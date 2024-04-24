@@ -28,7 +28,7 @@ function SignIn() {
           className="w-[50%] h-full rounded-l-lg"
           style={backgroundImage}
         ></div>
-        <div className="rounded-r-lg border-2 border-zinc-600 p-10 pl-16 w-[50%] flex flex-col justify-center relative">
+        <div className="rounded-r-lg border-2 border-zinc-600 p-10 w-[50%] flex flex-col justify-center relative">
           <Link
             to="/"
             className="absolute top-5 right-5 border-[2px] border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center cursor-pointer group hover:border-secondary"

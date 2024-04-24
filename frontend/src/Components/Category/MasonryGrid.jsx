@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import Masonry from "masonry-layout";
+import Masonry from "react-masonry-css";
 import ImageCard from "../Cards/ImageCard";
 
 function MasonryGrid() {
@@ -62,31 +62,18 @@ function MasonryGrid() {
     },
   ];
 
-  const gridRef = useRef(null);
-
-  useEffect(() => {
-    const masonry = new Masonry(gridRef.current, {
-      itemSelector: ".grid-item",
-      columnWidth: ".grid-sizer",
-      percentPosition: true,
-    });
-
-    masonry.layout();
-
-    return () => {
-      masonry.destroy();
-    };
-  }, [images]);
-
   return (
-    <div ref={gridRef} className="mt-10 grid grid-cols-3 grid-flow-dense p-12">
-      <div className="grid-sizer gap-4"></div>
+    <Masonry
+      breakpointCols={3}
+      className="my-masonry-grid"
+      columnClassName="my-masonry-grid_column"
+    >
       {images.map((image, i) => (
-        <div key={i} className="grid-item mb-4">
+        <div key={i}>
           <ImageCard imageUrl={image.url} />
         </div>
       ))}
-    </div>
+    </Masonry>
   );
 }
 

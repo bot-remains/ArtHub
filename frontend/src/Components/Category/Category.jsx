@@ -36,7 +36,9 @@ function Category() {
           Paintings
         </button>
       </div>
-      <MasonryGrid />
+      <div className="mt-10 p-12">
+        <MasonryGrid />
+      </div>
     </div>
   );
 }

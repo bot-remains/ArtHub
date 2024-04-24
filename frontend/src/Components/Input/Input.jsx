@@ -1,7 +1,7 @@
 function Input({label, type, placeholder, value, handler}) {
   return (
     <div className="w-full">
-      <label htmlFor={label} className="block text-zinc-400 text-lg">
+      <label htmlFor={label} className="block text-white text-lg">
         {label}
       </label>
       <input
