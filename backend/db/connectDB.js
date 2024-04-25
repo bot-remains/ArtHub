@@ -1,14 +1,13 @@
 import mongoose from "mongoose";
+import {ApiError} from "../utils/ApiError.js";
 
-const connectDB = () => {
-  mongoose
-    .connect("mongodb://127.0.0.1:27017/pinterest")
+export const connectDB = async () => {
+  await mongoose
+    .connect(process.env.MONGODB_URI)
     .then(() => {
-      console.log("Connect with Databases");
+      console.log("Database Connected");
     })
     .catch((err) => {
-      console.log("Error connecting with Database");
+      throw new ApiError(500, `${err.message}`);
     });
 };
-
-export default connectDB;

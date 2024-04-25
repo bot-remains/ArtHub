@@ -9,16 +9,12 @@ const userSchema = new Schema(
       trim: true,
       lowercase: true,
     },
-    phone: {
-      type: Number,
-    },
     email: {
       type: String,
     },
     password: {
       type: String,
       required: true,
-      // minlength: 5,
     },
     savedPost: [
       {

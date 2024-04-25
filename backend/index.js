@@ -4,7 +4,7 @@ import expressBusboy from "express-busboy";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import connectDB from "./db/connectDB.js"; //Database connection
+import {connectDB} from "./db/connectDB.js"; //Database connection
 
 //Routes
 import userAuthRoutes from "./routes/user.routes.js";

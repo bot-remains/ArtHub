@@ -8,7 +8,7 @@ const saltRounds = 10;
 
 // * Sign Up
 export const signUp = asyncHandler(async (req, res) => {
-  const {username, phone, password, email} = req.body;
+  const {username, password, email} = req.body;
   const validEmail = await User.findOne({email: email});
   if (validEmail) throw new ApiError(409, "Email already in use");
 
@@ -74,7 +74,6 @@ export const logIn = asyncHandler(async (req, res) => {
     email: user.email,
     id: user.id,
   };
-  // countUser();
 
   res
     .cookie("userCookie", accessToken, {

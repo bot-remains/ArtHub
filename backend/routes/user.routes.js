@@ -1,5 +1,5 @@
 import express from "express";
-import validateToken from "./../middlewares/validateUser.js";
+import {verifyToken} from "../middlewares/validateUser.js";
 import {
   currentUser,
   logIn,
@@ -20,6 +20,6 @@ router.post("/login", logIn);
 router.get("/logout", logOut);
 
 // ! Fetch a logged in user data
-router.get("/currentUser", validateToken, currentUser);
+router.get("/currentUser", verifyToken, currentUser);
 
 export default router;
