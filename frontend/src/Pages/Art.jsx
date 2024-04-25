@@ -13,7 +13,7 @@ function Art() {
     backgroundSize: "cover",
   };
   return (
-    <div className="text-white pt-3 flex flex-col justify-center items-center">
+    <div className="text-white py-10 flex flex-col justify-center items-center">
       <div className="w-[95%] flex">
         <div className="w-[60%] flex justify-center items-center">
           <img
@@ -57,7 +57,7 @@ function Art() {
       </div>
       <div className="self-start mt-10 px-10 w-full">
         <div className="flex items-start">
-          <div className="text-4xl">
+          <div className="text-3xl">
             343 Comments
             <hr className="border-zinc-600 border rounded my-2 text-zinc-400" />
           </div>
@@ -89,6 +89,9 @@ function Art() {
               </div>
             </form>
           </div>
+        </div>
+        <div className="mt-6 px-4">
+          <CommentCard />
         </div>
       </div>
     </div>
