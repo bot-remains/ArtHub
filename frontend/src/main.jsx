@@ -20,6 +20,7 @@ import SignUp from "./Pages/SignUp.jsx";
 import MyArts from "./Pages/MyArts.jsx";
 import Contact from "./Pages/Contact.jsx";
 import UploadArt from "./Pages/UploadArt.jsx";
+import Art from "./Pages/Art.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       <Route path="my-arts" element={<MyArts />} />
       <Route path="contact" element={<Contact />} />
       <Route path="upload-new-art" element={<UploadArt />} />
+      <Route path="art" element={<Art />} />
     </Route>,
   ),
 );
