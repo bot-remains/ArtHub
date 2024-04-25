@@ -1,9 +1,11 @@
 import React from "react";
 import {useState} from "react";
 import {FaAngleRight} from "react-icons/fa";
+import {FaArrowUp} from "react-icons/fa6";
 import SearchBar from "../Components/SearchBar/SearchBar";
 import SortBy from "../Components/SortBy/SortBy";
 import MasonryGrid from "../Components/Category/MasonryGrid";
+import ScrollToTop from "../Components/ScrollToTop/ScrollToTop.js";
 
 function Explore() {
   const filterOptions = [
@@ -38,7 +40,10 @@ function Explore() {
   };
 
   return (
-    <div className="w-full px-10 py-5 text-white flex justify-center gap-6">
+    <div className="w-full px-10 py-5 text-white flex justify-center gap-6 relative">
+      <div className="fixed bottom-6 right-8 text-lg rounded-full w-fit p-[16px] flex items-center justify-center text-zinc-200 bg-zinc-600 z-50 cursor-pointer group hover:bg-zinc-500">
+        <FaArrowUp className="group-hover:text-white" />
+      </div>
       <div className="rounded-md w-[15%] h-fit bg-zinc-900 p-4 ">
         <h1 className="text-2xl">Filter</h1>
         <hr className="border-secondary border rounded mb-3 mt-2" />
@@ -92,7 +97,7 @@ function Explore() {
           <SearchBar />
           <SortBy />
         </div>
-        <div className="pt-5">
+        <div className="pt-5 w-full">
           <MasonryGrid />
         </div>
       </div>

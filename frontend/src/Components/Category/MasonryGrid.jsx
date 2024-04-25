@@ -1,5 +1,6 @@
-import React, {useEffect, useRef} from "react";
-import Masonry from "react-masonry-css";
+import React, {useState, useEffect, useRef} from "react";
+import imagesLoaded from "imagesloaded";
+import Masonry from "masonry-layout";
 import ImageCard from "../Cards/ImageCard";
 
 function MasonryGrid() {
@@ -62,18 +63,48 @@ function MasonryGrid() {
     },
   ];
 
+  let containerRef = useRef(null);
+  let containerWidth;
+  let numberOfColumns = 3;
+  const [columnWidth, setColumnWidth] = useState(0);
+  const [gutterWidthPx, setGutterWidthPx] = useState(0);
+  let gutterWidth = 0.01;
+
+  useEffect(() => {
+    containerWidth = containerRef.current.clientWidth;
+    let gutterWidthPx = containerWidth * gutterWidth;
+    setGutterWidthPx(gutterWidthPx);
+    let columnWidthPx =
+      (containerWidth - (numberOfColumns - 1) * gutterWidthPx) /
+      numberOfColumns;
+    setColumnWidth(columnWidthPx);
+
+    let msnry = new Masonry(containerRef.current, {
+      itemSelector: ".grid-item",
+      gutter: gutterWidthPx,
+      percentPosition: true,
+    });
+
+    imagesLoaded(containerRef.current, function () {
+      msnry.layout();
+    });
+  }, [images]);
+
   return (
-    <Masonry
-      breakpointCols={3}
-      className="my-masonry-grid"
-      columnClassName="my-masonry-grid_column"
-    >
+    <div ref={containerRef} className="grid-box">
       {images.map((image, i) => (
-        <div key={i}>
+        <div
+          key={i}
+          className="grid-item border-[10px] cursor-pointer relative group/card"
+          style={{
+            width: `${columnWidth}px`,
+            marginBottom: `${gutterWidthPx}px`,
+          }}
+        >
           <ImageCard imageUrl={image.url} />
         </div>
       ))}
-    </Masonry>
+    </div>
   );
 }
 
