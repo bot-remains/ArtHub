@@ -2,7 +2,7 @@ import React from "react";
 import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 
-import {setCurrentUser, setApiError} from "../../redux/user/userSlice.js";
+// import {setCurrentUser, setApiError} from "../../redux/user/userSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 
 import Input from "../Components/Input/Input";
