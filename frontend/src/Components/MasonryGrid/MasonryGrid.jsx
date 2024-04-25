@@ -64,30 +64,41 @@ function MasonryGrid() {
   ];
 
   let containerRef = useRef(null);
-  let containerWidth;
+  let [containerWidth, setContainerWidth] = useState(0);
   let numberOfColumns = 3;
   const [columnWidth, setColumnWidth] = useState(0);
   const [gutterWidthPx, setGutterWidthPx] = useState(0);
   let gutterWidth = 0.01;
 
   useEffect(() => {
-    containerWidth = containerRef.current.clientWidth;
-    let gutterWidthPx = containerWidth * gutterWidth;
-    setGutterWidthPx(gutterWidthPx);
-    let columnWidthPx =
-      (containerWidth - (numberOfColumns - 1) * gutterWidthPx) /
-      numberOfColumns;
-    setColumnWidth(columnWidthPx);
+    const updateLayout = () => {
+      containerWidth = containerRef.current.clientWidth;
+      setContainerWidth(containerWidth);
+      let gutterWidthPx = containerWidth * gutterWidth;
+      setGutterWidthPx(gutterWidthPx);
+      let columnWidthPx =
+        (containerWidth - (numberOfColumns - 1) * gutterWidthPx) /
+        numberOfColumns;
+      setColumnWidth(columnWidthPx);
 
-    let msnry = new Masonry(containerRef.current, {
-      itemSelector: ".grid-item",
-      gutter: gutterWidthPx,
-      percentPosition: true,
-    });
+      let msnry = new Masonry(containerRef.current, {
+        itemSelector: ".grid-item",
+        gutter: gutterWidthPx,
+        percentPosition: true,
+      });
 
-    imagesLoaded(containerRef.current, function () {
-      msnry.layout();
-    });
+      imagesLoaded(containerRef.current, function () {
+        msnry.layout();
+      });
+    };
+
+    updateLayout();
+
+    window.addEventListener("resize", updateLayout);
+
+    return () => {
+      window.removeEventListener("resize", updateLayout);
+    };
   }, [images]);
 
   return (

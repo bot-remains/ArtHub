@@ -9,7 +9,9 @@ function Root() {
   const containerRef = useRef(null);
 
   const showNavbar = () => {
-    return !["/signup", "/signin"].includes(location.pathname);
+    return !["/signup", "/signin", "/upload-new-art"].includes(
+      location.pathname,
+    );
   };
 
   return (

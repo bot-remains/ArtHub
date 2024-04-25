@@ -1,7 +1,7 @@
 import React from "react";
 import {FaRegSquare} from "react-icons/fa";
 import bgImage from "../../Public/bg.jpg";
-import MasonryGrid from "./MasonryGrid.jsx";
+import MasonryGrid from "../MasonryGrid/MasonryGrid";
 
 function Category() {
   const styles = {

@@ -4,7 +4,7 @@ import {FaAngleRight} from "react-icons/fa";
 import {FaArrowUp} from "react-icons/fa6";
 import SearchBar from "../Components/SearchBar/SearchBar";
 import SortBy from "../Components/SortBy/SortBy";
-import MasonryGrid from "../Components/Category/MasonryGrid";
+import MasonryGrid from "../Components/MasonryGrid/MasonryGrid.jsx";
 import ScrollToTop from "../Components/ScrollToTop/ScrollToTop.js";
 
 function Explore() {

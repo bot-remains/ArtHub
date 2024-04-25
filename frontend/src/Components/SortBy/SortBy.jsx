@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 function SortBy() {
-  const [selectedOption, setSelectedOption] = useState("priceAsc");
+  const [selectedOption, setSelectedOption] = useState("nameAsc");
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
@@ -21,8 +21,8 @@ function SortBy() {
       >
         <option value="likeAsc">Likes: Low to High</option>
         <option value="likeDsc">Likes: High to Low</option>
-        <option value="nameAsc">Name: Low to High</option>
-        <option value="nameDsc">Name: High to Low</option>
+        <option value="nameAsc">Name: A to Z</option>
+        <option value="nameDsc">Name: Z to A</option>
         <option value="newest">Newest</option>
       </select>
     </div>

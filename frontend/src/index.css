@@ -29,6 +29,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: white;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -38,8 +39,4 @@ body {
 ::-webkit-scrollbar-track {
   background-color: #cccccc57;
   border-radius: 10px;
-}
-
-.gutter-width {
-  width: 2%;
 }

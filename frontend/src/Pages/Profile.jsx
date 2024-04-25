@@ -1,5 +1,5 @@
 import React from "react";
-import MasonryGrid from "../Components/Category/MasonryGrid";
+import MasonryGrid from "../Components/MasonryGrid/MasonryGrid.jsx";
 
 import Button from "../Components/Button/Button";
 
