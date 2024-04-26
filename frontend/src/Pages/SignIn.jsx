@@ -2,7 +2,6 @@ import React from "react";
 import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 
-// import {setCurrentUser, setApiError} from "../../redux/user/userSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 
 import Input from "../Components/Input/Input";
@@ -10,28 +9,35 @@ import Password from "../Components/Password/Password";
 import Button from "../Components/Button/Button";
 
 import {IoHomeOutline} from "react-icons/io5";
+import {setApiError, setUser} from "../Components/redux/user/userSlice";
+import axios from "axios";
 
 function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const {user, apiError} = useSelector((state) => state.user);
   let [data, setData] = useState({
-    Email: "",
-    Password: "",
+    email: "",
+    password: "",
   });
 
   const handleData = (e) => {
-    setData({...data, [e.target.id]: e.target.value});
+    const {name, value} = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3000/api/v1/auth/signin", data, {
+      .post("http://localhost:3000/api/v1/auth/login", data, {
         withCredentials: true,
       })
       .then((response) => {
-        dispatch(setCurrentUser(response.data.data));
+        console.log(response);
+        dispatch(setUser(response.data.data.user.username));
         navigate("/");
       })
       .catch((error) => {
@@ -73,14 +79,16 @@ function SignIn() {
                 label={"Email"}
                 type={"email"}
                 placeholder={"abc@xyz.com"}
-                value={data.Email}
+                value={data.email}
                 handler={handleData}
+                name={"email"}
               />
               <Password
                 label={"Password"}
                 placeholder={"Password"}
-                value={data.Password}
+                value={data.password}
                 handler={handleData}
+                name={"password"}
               />
             </div>
             <Button text={"Submit"} />

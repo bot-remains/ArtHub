@@ -1,12 +1,14 @@
 import express from "express";
-import {verifyToken} from "../middlewares/validateUser.js";
+// import {verifyToken} from "../middlewares/validateUser.js";
 import {
   currentUser,
   logIn,
   logOut,
+  profile,
   signUp,
 } from "../controllers/user.controller.js";
-import {fetchSavePost} from "../controllers/post.schema.js";
+import {fetchSavePost} from "../controllers/post.controller.js";
+import {validateToken} from "../middlewares/validateUser.js";
 
 const router = express.Router();
 
@@ -20,6 +22,8 @@ router.post("/login", logIn);
 router.get("/logout", logOut);
 
 // ! Fetch a logged in user data
-router.get("/currentUser", verifyToken, currentUser);
+router.get("/currentUser", validateToken, currentUser);
+
+router.get("/user", validateToken, profile);
 
 export default router;

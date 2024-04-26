@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {IoEyeOutline, IoEyeOffOutline} from "react-icons/io5";
 
-function Password({label, placeholder, value, handler}) {
+function Password({label, placeholder, value, handler, name}) {
   let [showPassword, setShowPassword] = useState(false);
   return (
     <div className="w-full">
@@ -15,6 +15,7 @@ function Password({label, placeholder, value, handler}) {
           id={label}
           value={value}
           onChange={handler}
+          name={name}
           className="mt-1 relative block w-full p-3 pr-8 bg-zinc-900 border border-zinc-600 rounded-md focus:outline-none"
         />
         <div

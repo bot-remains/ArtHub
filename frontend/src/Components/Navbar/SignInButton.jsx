@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {
   FaRegUserCircle,
@@ -9,13 +9,17 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import SignOut from "../SignOut/SignOut.jsx";
+import {useSelector} from "react-redux";
 
 function SignInButton() {
-  const currentUser = null;
-  // const {currentUser} = useSelector((state) => state.user);
+  const {user, apiError} = useSelector((state) => state.user);
 
   const [showMenu, setShowMenu] = useState(false);
   let timeoutId;
+
+  useEffect(() => {
+    console.log(user);
+  });
 
   const handleMouseEnter = () => {
     clearTimeout(timeoutId);
@@ -38,8 +42,16 @@ function SignInButton() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <FaRegUserCircle /> &nbsp;{" "}
-        {currentUser ? currentUser.name.substring(0, 5) : "Sign In"}
+        {user ? (
+          <p className="bg-blue-500 w-8 h-8 flex justify-center items-center rounded-full text-white">
+            {user[0]}
+          </p>
+        ) : (
+          <>
+            <FaRegUserCircle />
+            Sign In
+          </>
+        )}
         &nbsp;{" "}
         <FaAngleUp
           className={`transform ${
@@ -56,32 +68,29 @@ function SignInButton() {
           onMouseLeave={handleMouseLeave}
         >
           <ul className="list-none p-0 m-0">
-            {currentUser ? null : (
+            {user ? null : (
               <Link to="/signup">
                 <li className="p-3 pl-3 cursor-pointer border-gray-300 border-b flex justify-between hover:bg-gray-100 hover:rounded-t-lg">
                   New here?<p className="text-secondary">Sign Up</p>
                 </li>
               </Link>
             )}
-            {currentUser ? (
+            {user ? (
               <Link to="/profile">
                 <li className="p-2 hover:bg-gray-100 cursor-pointer flex items-center">
                   <FaRegUserCircle /> &nbsp; My Profile
                 </li>
               </Link>
             ) : null}
-
-            <Link to="/my-arts">
-              <li className="p-2 hover:bg-gray-100 cursor-pointer flex items-center">
-                <FaShoppingCart /> &nbsp; My Arts
-              </li>
-            </Link>
-
-            {/* <Link to="/wishlist">
-              <li className="p-2 hover:bg-gray-100 cursor-pointer flex items-center">
-                <FaRegHeart /> &nbsp; Wishlist
-              </li>
-            </Link> */}
+            {user ? (
+              <Link to="/my-arts">
+                <li className="p-2 hover:bg-gray-100 cursor-pointer flex items-center">
+                  <FaShoppingCart /> &nbsp; My Arts
+                </li>
+              </Link>
+            ) : (
+              ""
+            )}
 
             <Link to="/contact">
               <li className="p-2 hover:bg-gray-100 cursor-pointer flex items-center">
