@@ -1,11 +1,55 @@
 import React from "react";
+import {v4 as uuidv4} from "uuid";
 import {FaArrowDown, FaRegHeart, FaShare, FaPlus} from "react-icons/fa6";
+import axios from "axios";
+import {useParams} from "react-router-dom";
 
-function ImageCard({imageUrl}) {
+function ImageCard({imageUrl, id, name}) {
   const profilePic = {
     backgroundImage: `url("https://res.cloudinary.com/djdegiywz/image/upload/v1713686815/ke4qgpdy9yaaqyix03k1.jpg")`,
     backgroundPosition: "top",
     backgroundSize: "cover",
+  };
+  const addToSave = async (id) => {
+    await axios.get(`http://localhost:3000/api/v1/post/savePost/${id}`, {
+      withCredentials: true,
+    });
+    console.log(id);
+  };
+
+  const downloadPost = async (id) => {
+    try {
+      const response = await axios.get(id, {
+        responseType: "blob",
+      });
+      const blob = new Blob([response.data]);
+      const uuid = uuidv4(); // Generate UUID for filename
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${uuid}.jpg`); // Set filename with UUID
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
+
+  const handleShare = async (imageUrl) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: imageUrl,
+          text: "Check out this image!",
+          url: imageUrl,
+        });
+      } else {
+        console.log("Web Share API not supported");
+      }
+    } catch (error) {
+      console.error("Error sharing:", error);
+    }
   };
 
   return (
@@ -19,10 +63,18 @@ function ImageCard({imageUrl}) {
         </div>
         <div className="flex items-center justify-end gap-2">
           <div className="border-[2px] border-zinc-400  rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
-            <FaShare className="group-hover:text-secondary" />
+            <button
+              onClick={() => {
+                handleShare(imageUrl);
+              }}
+            >
+              <FaShare className="group-hover:text-secondary" />
+            </button>
           </div>
           <div className="border-[2px] border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
-            <FaPlus className="group-hover:text-secondary" />
+            <button onClick={() => addToSave(id)}>
+              <FaPlus className="group-hover:text-secondary" />
+            </button>
           </div>
         </div>
       </div>
@@ -32,10 +84,12 @@ function ImageCard({imageUrl}) {
             className="rounded-full w-[35px] h-[35px]"
             style={profilePic}
           ></div>
-          <div className="text">name</div>
+          <div className="text">{name}</div>
         </div>
         <div className="border-[2px] text-sm text-zinc-400 border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
-          <FaArrowDown className="group-hover:text-secondary" />
+          <button onClick={() => downloadPost(imageUrl)}>
+            <FaArrowDown className="group-hover:text-secondary" />
+          </button>
         </div>
       </div>
       <img src={imageUrl} className="w-full" />

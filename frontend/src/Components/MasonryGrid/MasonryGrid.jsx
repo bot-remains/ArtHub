@@ -2,66 +2,35 @@ import React, {useState, useEffect, useRef} from "react";
 import imagesLoaded from "imagesloaded";
 import Masonry from "masonry-layout";
 import ImageCard from "../Cards/ImageCard";
+import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {setApiError, setCard} from "../redux/card/card";
+import {useLocation} from "react-router-dom";
 
 function MasonryGrid() {
-  const images = [
-    {
-      url: "https://res.cloudinary.com/djdegiywz/image/upload/v1713708333/fun9jg2gtmkalcxlrbtu.jpg",
-      header: "Beauty Nature",
-      secondaryHeader: "Scenary",
-      description:
-        "Immerse yourself in the breathtaking allure of nature's artistry at our gallery. From the vibrant hues of a sunrise painting the sky to the delicate intricacies of a flower in bloom, each piece celebrates the boundless beauty of the natural world. Let the wonders of nature inspire and captivate you as you explore our collection.",
-    },
-    {
-      url: "https://res.cloudinary.com/djdegiywz/image/upload/v1713686818/lshtiussswft85rpi8vi.jpg",
-      header: "Other Type Painting",
-      secondaryHeader: "Sketches",
-      description:
-        "Explore the charm and tranquility of our Sketches section, where each stroke breathes life into scenes of natural wonder. From serene landscapes to delicate botanical studies, these sketches encapsulate the beauty of the world around us in its purest form. Immerse yourself in the simplicity and elegance of these artworks, each one a testament to the artist's keen eye and appreciation for nature's grace.",
-    },
-    {
-      url: "https://res.cloudinary.com/djdegiywz/image/upload/v1713686837/bmrt04tidyhnbejvwvxv.jpg",
-      header: "Beauty Nature",
-      secondaryHeader: "Scenary",
-      description:
-        "Immerse yourself in the breathtaking allure of nature's artistry at our gallery. From the vibrant hues of a sunrise painting the sky to the delicate intricacies of a flower in bloom, each piece celebrates the boundless beauty of the natural world. Let the wonders of nature inspire and captivate you as you explore our collection.",
-    },
-    {
-      url: "https://res.cloudinary.com/djdegiywz/image/upload/v1713686815/ke4qgpdy9yaaqyix03k1.jpg",
-      header: "Beauty Nature",
-      secondaryHeader: "Scenary",
-      description:
-        "Immerse yourself in the breathtaking allure of nature's artistry at our gallery. From the vibrant hues of a sunrise painting the sky to the delicate intricacies of a flower in bloom, each piece celebrates the boundless beauty of the natural world. Let the wonders of nature inspire and captivate you as you explore our collection.",
-    },
-    {
-      url: "https://res.cloudinary.com/djdegiywz/image/upload/v1713708334/a3ysfyznrgayl1ditykt.jpg",
-      header: "Other Type Painting",
-      secondaryHeader: "Sketches",
-      description:
-        "Explore the charm and tranquility of our Sketches section, where each stroke breathes life into scenes of natural wonder. From serene landscapes to delicate botanical studies, these sketches encapsulate the beauty of the world around us in its purest form. Immerse yourself in the simplicity and elegance of these artworks, each one a testament to the artist's keen eye and appreciation for nature's grace.",
-    },
-    {
-      url: "https://res.cloudinary.com/djdegiywz/image/upload/v1713708334/pkty1gdwf7nvjdpivzvz.jpg",
-      header: "Other Type Painting",
-      secondaryHeader: "Sketches",
-      description:
-        "Explore the charm and tranquility of our Sketches section, where each stroke breathes life into scenes of natural wonder. From serene landscapes to delicate botanical studies, these sketches encapsulate the beauty of the world around us in its purest form. Immerse yourself in the simplicity and elegance of these artworks, each one a testament to the artist's keen eye and appreciation for nature's grace.",
-    },
-    {
-      url: "https://res.cloudinary.com/djdegiywz/image/upload/v1713708334/jpne73hagscaqnm43sp4.jpg",
-      header: "Other Type Painting",
-      secondaryHeader: "Sketches",
-      description:
-        "Explore the charm and tranquility of our Sketches section, where each stroke breathes life into scenes of natural wonder. From serene landscapes to delicate botanical studies, these sketches encapsulate the beauty of the world around us in its purest form. Immerse yourself in the simplicity and elegance of these artworks, each one a testament to the artist's keen eye and appreciation for nature's grace.",
-    },
-    {
-      url: "https://res.cloudinary.com/djdegiywz/image/upload/v1713708335/airvulw0rhgozmmrhzuo.webp",
-      header: "Other Type Painting",
-      secondaryHeader: "Sketches",
-      description:
-        "Explore the charm and tranquility of our Sketches section, where each stroke breathes life into scenes of natural wonder. From serene landscapes to delicate botanical studies, these sketches encapsulate the beauty of the world around us in its purest form. Immerse yourself in the simplicity and elegance of these artworks, each one a testament to the artist's keen eye and appreciation for nature's grace.",
-    },
-  ];
+  const dispatch = useDispatch();
+  const {card, apiError} = useSelector((state) => state.card);
+  const location = useLocation();
+  const pathName = location;
+  const fetchData = async () => {
+    if (pathName.pathname === "/profile") {
+      axios
+        .get("http://localhost:3000/api/v1/post/fetchSavedPost", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log(response.data.data.savedPost, pathName.pathname);
+          dispatch(setCard(response.data.data.savedPost));
+        });
+    } else if (pathName.pathname === "/explore") {
+      axios
+        .get("http://localhost:3000/api/v1/post/fetchPost")
+        .then((response) => {
+          console.log(response, pathName.pathname);
+          dispatch(setCard(response.data.data));
+        });
+    }
+  };
 
   let containerRef = useRef(null);
   let [containerWidth, setContainerWidth] = useState(0);
@@ -71,6 +40,8 @@ function MasonryGrid() {
   let gutterWidth = 0.01;
 
   useEffect(() => {
+    console.log("PATH : ", pathName.pathname);
+    fetchData();
     const updateLayout = () => {
       containerWidth = containerRef.current.clientWidth;
       setContainerWidth(containerWidth);
@@ -99,22 +70,28 @@ function MasonryGrid() {
     return () => {
       window.removeEventListener("resize", updateLayout);
     };
-  }, [images]);
+  }, [dispatch, pathName]);
 
   return (
     <div ref={containerRef} className="grid-box">
-      {images.map((image, i) => (
-        <div
-          key={i}
-          className="grid-item border-[10px] cursor-pointer relative group/card"
-          style={{
-            width: `${columnWidth}px`,
-            marginBottom: `${gutterWidthPx}px`,
-          }}
-        >
-          <ImageCard imageUrl={image.url} />
-        </div>
-      ))}
+      {card &&
+        card.map((cardItem, i) => (
+          <div
+            key={i}
+            className="grid-item border-[10px] cursor-pointer relative group/card"
+            style={{
+              width: `${columnWidth}px`,
+              marginBottom: `${gutterWidthPx}px`,
+            }}
+          >
+            <ImageCard
+              imageUrl={cardItem?.image}
+              id={cardItem._id}
+              name={cardItem.userId?.username || "Not found"}
+            />
+          </div>
+        ))}
+      {(!card || card.length === 0) && <p>No data available</p>}
     </div>
   );
 }

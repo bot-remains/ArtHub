@@ -13,10 +13,9 @@ export const signUp = asyncHandler(async (req, res) => {
   if (validEmail) throw new ApiError(409, "Email already in use");
 
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-
+  console.log(password);
   const newUser = new User({
     username,
-    phone,
     email,
     password: hashedPassword,
   });
@@ -52,7 +51,6 @@ export const signUp = asyncHandler(async (req, res) => {
 export const logIn = asyncHandler(async (req, res) => {
   const {email, password} = req.body;
   const user = await User.findOne({email: email});
-  console.log(email, password);
   if (!user || !(await bcrypt.compare(password, user.password))) {
     throw new ApiError(401, "Invalid Details");
   }
@@ -80,7 +78,9 @@ export const logIn = asyncHandler(async (req, res) => {
       httpOnly: true,
     })
     .status(200)
-    .json({user, accessToken});
+    .json(
+      new ApiResponse(200, {user, accessToken}, "User Logged in successfully"),
+    );
 });
 
 // * LogOut
@@ -102,11 +102,15 @@ export const getUserInfo = asyncHandler(async (req, res) => {
   if (!findUser) {
     return res.status(404).json({message: "User not found"});
   }
-  res.status(200).json({
-    user: findUser,
-    order: order,
-    address: address,
-  });
+  res.status(200).json(
+    200,
+    {
+      user: findUser,
+      order: order,
+      address: address,
+    },
+    "Data fetched successfully",
+  );
 });
 
 // ! Update Profile
@@ -123,10 +127,7 @@ export const updateUser = asyncHandler(async (req, res) => {
     return res.status(404).json({message: "User not found"});
   }
 
-  res.status(200).json({
-    message: "User updated successfully",
-    user: updateUser,
-  });
+  res.status(200).json(200, updateUser, "User updated successfully");
 });
 
 // * Fetch a logged in user data
@@ -135,5 +136,18 @@ export const currentUser = asyncHandler(async (req, res) => {
   if (!user) {
     return res.status(404).json("User not logged in");
   }
-  res.status(200).json(user);
+  res.status(200).json(200, user, "User data fetched successfully");
+});
+
+export const profile = asyncHandler(async (req, res) => {
+  const userId = req?.user.id;
+  const user = await User.findOne({_id: userId}).select("-password");
+  console.log(user);
+  if (!user) {
+    return res.status(404).json("User not logged in");
+  }
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, user, "User data fetched successfully"));
 });

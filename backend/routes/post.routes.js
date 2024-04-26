@@ -1,6 +1,6 @@
 import express from "express";
-import {verifyToken} from "../middlewares/validateUser.js";
-import {upload} from "./../middlewares/multer.js";
+import {validateToken} from "./../middlewares/validateUser.js";
+import upload from "./../middlewares/multer.js"; // Import without curly braces
 import {
   addComment,
   createPost,
@@ -8,23 +8,27 @@ import {
   savePost,
   fetchSavePost,
   showPost,
-} from "../controllers/post.schema.js";
+  downloadPost,
+} from "../controllers/post.controller.js";
+
 const router = express.Router();
 
-// * Fetch Post
+// Fetch Post
 router.get("/fetchPost", fetchPost);
 
-// * Create Post
-router.post("/createPost", verifyToken, upload, createPost);
+// Create Post
+router.post("/createPost", validateToken, upload, createPost);
 
-// * Add comment
-router.post("/addComment/:id", verifyToken, addComment);
+// Add comment
+router.post("/addComment/:id", validateToken, addComment);
 
-// * Save Post
-router.get("/savePost/:id", verifyToken, savePost);
+// Save Post
+router.get("/savePost/:id", validateToken, savePost);
 
-router.get("/fetchSavedPost", verifyToken, fetchSavePost);
+router.get("/fetchSavedPost", validateToken, fetchSavePost);
 
 router.get("/showPost/:id", showPost);
+
+router.get("/download/:id", downloadPost);
 
 export default router;

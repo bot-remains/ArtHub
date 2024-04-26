@@ -11,6 +11,10 @@ export const uploadOnCloudinary = async (localFilePath) => {
   try {
     if (!localFilePath) return null;
 
+    const transformation = {
+      quality: "auto:low",
+    };
+
     let res = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "image",
       transformation: transformation,

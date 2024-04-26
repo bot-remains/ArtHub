@@ -1,6 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
-import expressBusboy from "express-busboy";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -28,16 +26,13 @@ app.use(cookieParser());
 
 //Cors Configuration
 const corsOptions = {
-  origin: function (origin, callback) {
-    callback(
-      null,
-      (origin && origin.startsWith(process.env.CORS_ORIGIN)) || "*",
-    );
-  },
+  origin: "http://localhost:5173", // Update with your client-side origin
   credentials: true,
 };
 
 app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+// app.use(cors());
 
 app.use((req, res, next) => {
   if (req.path !== "/favicon.ico") {

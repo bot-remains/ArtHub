@@ -8,7 +8,9 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-
+import {Provider} from "react-redux";
+// import {persistor} from "./redux/store.js";
+import {PersistGate} from "redux-persist/integration/react";
 import Root from "./Root.jsx";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute.jsx";
 import Home from "./Pages/Home.jsx";
@@ -21,6 +23,7 @@ import MyArts from "./Pages/MyArts.jsx";
 import Contact from "./Pages/Contact.jsx";
 import UploadArt from "./Pages/UploadArt.jsx";
 import Art from "./Pages/Art.jsx";
+import {persistor, store} from "./Components/redux/store";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,7 +45,11 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <RouterProvider router={router} />,
+    </PersistGate>
+  </Provider>,
+  // </React.StrictMode>,
 );
