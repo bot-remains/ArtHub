@@ -10,6 +10,7 @@ import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setPost} from "../Components/redux/post/post";
 import CustomToastContainer from "./../Components/Toastify/CustomToastContainer";
+import {setComment} from "../Components/redux/comment/comment";
 function Art() {
   const dispatch = useDispatch();
   const {post} = useSelector((state) => state.post);
@@ -28,13 +29,16 @@ function Art() {
     e.preventDefault();
     try {
       console.log(review);
-      await axios.post(
+      const res = await axios.post(
         `http://localhost:3000/api/v1/post/addComment/${id}`,
         {review},
         {
           withCredentials: true,
         },
       );
+      fetchCommentData(id);
+      // dispatch(setComment(res.data.data));
+      console.log(res.data.data);
       console.log("Comment submitted successfully");
       setReview("");
     } catch (error) {
@@ -92,6 +96,7 @@ function Art() {
       const response = await axios.get(
         `http://localhost:3000/api/v1/post/showComment/${id}`,
       );
+      dispatch(setComment(response.data.data));
       setCount(response.data.data.count);
       console.log(response.data.data.count);
     } catch (error) {
@@ -103,7 +108,7 @@ function Art() {
     console.log(id.id);
     fetchCommentData(id.id);
     fetchData();
-  }, [comment]);
+  }, []);
 
   const fetchData = async () => {
     axios
@@ -129,10 +134,13 @@ function Art() {
           <hr className="border-zinc-600 border rounded my-2 text-zinc-400" />
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
-              <div
+              {/* <div
                 className="rounded-full w-[45px] h-[45px]"
                 style={profilePic}
-              ></div>
+              ></div> */}
+              <p className="bg-blue-500 w-10 h-10 flex justify-center items-center rounded-full text-white">
+                {post?.userId?.username[0]}
+              </p>
               <div className="text-lg">
                 {post?.userId?.username || "Not Found"}
               </div>
