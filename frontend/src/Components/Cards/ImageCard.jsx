@@ -3,6 +3,7 @@ import {v4 as uuidv4} from "uuid";
 import {FaArrowDown, FaRegHeart, FaShare, FaPlus} from "react-icons/fa6";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import {toast} from "react-toastify";
 
 function ImageCard({imageUrl, id, name}) {
   const profilePic = {
@@ -10,14 +11,33 @@ function ImageCard({imageUrl, id, name}) {
     backgroundPosition: "top",
     backgroundSize: "cover",
   };
-  const addToSave = async (id) => {
-    await axios.get(`http://localhost:3000/api/v1/post/savePost/${id}`, {
-      withCredentials: true,
-    });
-    console.log(id);
+
+  const addToSave = async (e, id) => {
+    e.stopPropagation();
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/post/savePost/${id}`,
+        {
+          withCredentials: true,
+        },
+      );
+      console.log(response.data);
+      if (response.status === 200) {
+        toast.success("Post added to saved posts");
+      } else if (response.status === 201) {
+        toast.dark("Post already saved");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please Login");
+      } else {
+        toast.error("Failed to add post to saved posts");
+      }
+    }
   };
 
-  const downloadPost = async (id) => {
+  const downloadPost = async (e, id) => {
+    e.stopPropagation();
     try {
       const response = await axios.get(id, {
         responseType: "blob",
@@ -36,7 +56,8 @@ function ImageCard({imageUrl, id, name}) {
     }
   };
 
-  const handleShare = async (imageUrl) => {
+  const handleShare = async (e, imageUrl) => {
+    e.stopPropagation();
     try {
       if (navigator.share) {
         await navigator.share({
@@ -57,40 +78,40 @@ function ImageCard({imageUrl, id, name}) {
       <div className="w-full h-full absolute top-0 z-10 bg-black opacity-50 hidden group-hover/card:block"></div>
       <div className="absolute w-full text-sm text-zinc-400 p-3 top-0 z-20 bg-gradient-to-b from-black hidden group-hover/card:flex justify-between ">
         <div className="flex items-center justify-start ">
-          <div className="border-[2px] border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
-            <FaRegHeart className="group-hover:text-secondary" />
+          <div>
+            {/* <FaRegHeart className="group-hover:text-secondary" /> */}
+            <button
+              onClick={(e) => {
+                handleShare(e, imageUrl);
+              }}
+            >
+              <div className="border-[2px] border-zinc-400  rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
+                <FaShare className="group-hover:text-secondary" />
+              </div>
+            </button>
           </div>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <div className="border-[2px] border-zinc-400  rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
-            <button
-              onClick={() => {
-                handleShare(imageUrl);
-              }}
-            >
-              <FaShare className="group-hover:text-secondary" />
-            </button>
-          </div>
-          <div className="border-[2px] border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
-            <button onClick={() => addToSave(id)}>
+          <button onClick={(e) => addToSave(e, id)}>
+            <div className="border-[2px] border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
               <FaPlus className="group-hover:text-secondary" />
-            </button>
-          </div>
+            </div>
+          </button>
         </div>
       </div>
       <div className="absolute w-full p-3 bottom-0 z-20 bg-gradient-to-t from-black hidden group-hover/card:flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <div
+          {/* <div
             className="rounded-full w-[35px] h-[35px]"
             style={profilePic}
-          ></div>
-          <div className="text">{name}</div>
+          ></div> */}
+          <div className="text">{name || "Unknown User"}</div>
         </div>
-        <div className="border-[2px] text-sm text-zinc-400 border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
-          <button onClick={() => downloadPost(imageUrl)}>
+        <button onClick={(e) => downloadPost(e, imageUrl)}>
+          <div className="border-[2px] text-sm text-zinc-400 border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center group hover:border-secondary">
             <FaArrowDown className="group-hover:text-secondary" />
-          </button>
-        </div>
+          </div>
+        </button>
       </div>
       <img src={imageUrl} className="w-full" />
     </>

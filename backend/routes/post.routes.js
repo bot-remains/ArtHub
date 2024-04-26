@@ -9,6 +9,7 @@ import {
   fetchSavePost,
   showPost,
   downloadPost,
+  showComment,
 } from "../controllers/post.controller.js";
 
 const router = express.Router();
@@ -21,6 +22,8 @@ router.post("/createPost", validateToken, upload, createPost);
 
 // Add comment
 router.post("/addComment/:id", validateToken, addComment);
+
+router.get("/showComment/:id", showComment);
 
 // Save Post
 router.get("/savePost/:id", validateToken, savePost);

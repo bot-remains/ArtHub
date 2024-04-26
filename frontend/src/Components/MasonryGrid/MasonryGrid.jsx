@@ -5,9 +5,10 @@ import ImageCard from "../Cards/ImageCard";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setApiError, setCard} from "../redux/card/card";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 function MasonryGrid() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {card, apiError} = useSelector((state) => state.card);
   const location = useLocation();
@@ -32,9 +33,14 @@ function MasonryGrid() {
     }
   };
 
+  const showProduct = (id) => {
+    console.log(id);
+    navigate(`/art/${id}`);
+  };
+
   let containerRef = useRef(null);
   let [containerWidth, setContainerWidth] = useState(0);
-  let numberOfColumns = 3;
+  let numberOfColumns = 4;
   const [columnWidth, setColumnWidth] = useState(0);
   const [gutterWidthPx, setGutterWidthPx] = useState(0);
   let gutterWidth = 0.01;
@@ -78,7 +84,10 @@ function MasonryGrid() {
         card.map((cardItem, i) => (
           <div
             key={i}
-            className="grid-item border-[10px] cursor-pointer relative group/card"
+            className="grid-item border-[5px] cursor-pointer relative group/card"
+            onClick={() => {
+              showProduct(cardItem._id);
+            }}
             style={{
               width: `${columnWidth}px`,
               marginBottom: `${gutterWidthPx}px`,
@@ -87,7 +96,7 @@ function MasonryGrid() {
             <ImageCard
               imageUrl={cardItem?.image}
               id={cardItem._id}
-              name={cardItem.userId?.username || "Not found"}
+              name={cardItem.userId?.username}
             />
           </div>
         ))}

@@ -1,26 +1,26 @@
-import React from "react";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-
-import Input from "../Components/Input/Input";
-import Password from "../Components/Password/Password";
-import Button from "../Components/Button/Button";
-
+import {ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {IoHomeOutline} from "react-icons/io5";
 import axios from "axios";
 import {setApiError, setUser} from "../Components/redux/user/userSlice";
+import Input from "../Components/Input/Input";
+import Password from "../Components/Password/Password";
+import Button from "../Components/Button/Button";
+import CustomToastContainer from "./../Components/Toastify/CustomToastContainer";
 
 function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {user, apiError} = useSelector((state) => state.user);
-  let [data, setData] = useState({
+  const {user} = useSelector((state) => state.user);
+  const [data, setData] = useState({
     username: "",
     email: "",
     password: "",
-    // ConfirmPassword: "",
   });
+
   const handleData = (e) => {
     const {name, value} = e.target;
     setData((prevData) => ({
@@ -28,6 +28,7 @@ function SignUp() {
       [name]: value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -39,28 +40,35 @@ function SignUp() {
           withCredentials: true,
         },
       );
-      dispatch(setUser(response.data.data.user.username));
-      navigate("/");
+      if (response.status === 201) {
+        toast.success("User registered successfully");
+        dispatch(setUser(response.data.data.username));
+        navigate("/");
+      }
     } catch (error) {
-      if (error.response) {
-        dispatch(setApiError(error.response.data));
-      } else {
-        dispatch(setApiError(error.response));
+      try {
+        if (error.response && error.response.status === 409) {
+          toast.error("Email already registered");
+        } else {
+          toast.error("An error occurred");
+        }
+      } catch (err) {
+        console.log("Error displaying toast:", err);
       }
     }
   };
 
-  const backgroundImage = {
-    backgroundImage: `url("https://res.cloudinary.com/djdegiywz/image/upload/v1713964502/z1wbck6pthvrw1ixm9ub.jpg")`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-  };
   return (
     <div className="w-full h-screen flex justify-center items-center text-white">
+      <CustomToastContainer />
       <div className="w-[60%] h-[80vh] rounded-lg flex">
         <div
           className="w-[50%] h-full rounded-l-lg"
-          style={backgroundImage}
+          style={{
+            backgroundImage: `url("https://res.cloudinary.com/djdegiywz/image/upload/v1713964502/z1wbck6pthvrw1ixm9ub.jpg")`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+          }}
         ></div>
         <div className="rounded-r-lg border-2 border-zinc-600 p-12 w-[50%] flex flex-col justify-center relative">
           <Link
@@ -73,7 +81,7 @@ function SignUp() {
             <h1 className="text-4xl">Sign Up</h1>
             <hr className="border-secondary border rounded" />
           </div>
-          <form className="mt-10" onClick={handleSubmit}>
+          <form className="mt-10" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-3 mb-6">
               <Input
                 label={"Username"}
@@ -98,12 +106,6 @@ function SignUp() {
                 handler={handleData}
                 name={"password"}
               />
-              {/* <Password
-                label={"ConfirmPassword"}
-                placeholder={"Confirm Password"}
-                value={data.ConfirmPassword}
-                handler={handleData}
-              /> */}
             </div>
             <Button text={"Submit"} />
           </form>

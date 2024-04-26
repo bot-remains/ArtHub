@@ -11,6 +11,8 @@ import Button from "../Components/Button/Button";
 import {IoHomeOutline} from "react-icons/io5";
 import {setApiError, setUser} from "../Components/redux/user/userSlice";
 import axios from "axios";
+import {toast, ToastContainer} from "react-toastify";
+import CustomToastContainer from "./../Components/Toastify/CustomToastContainer";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -31,22 +33,26 @@ function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3000/api/v1/auth/login", data, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        console.log(response);
-        dispatch(setUser(response.data.data.user.username));
-        navigate("/");
-      })
-      .catch((error) => {
-        if (error.response) {
-          dispatch(setApiError(error.response.data));
-        } else {
-          dispatch(setApiError(error.response));
-        }
-      });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/auth/login",
+        data,
+        {
+          withCredentials: true,
+        },
+      );
+      console.log(response);
+      dispatch(setUser(response.data.data.user.username));
+      navigate("/");
+      toast.success("User logged in successfully");
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Invalid email or password");
+      } else {
+        toast.error("An error occurred");
+      }
+    }
   };
 
   const backgroundImage = {
@@ -57,6 +63,7 @@ function SignIn() {
 
   return (
     <div className="w-full h-screen flex justify-center items-center text-white">
+      <CustomToastContainer />
       <div className="w-[60%] h-[80vh] rounded-lg flex">
         <div
           className="w-[50%] h-full rounded-l-lg"

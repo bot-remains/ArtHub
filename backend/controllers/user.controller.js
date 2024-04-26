@@ -13,7 +13,7 @@ export const signUp = asyncHandler(async (req, res) => {
   if (validEmail) throw new ApiError(409, "Email already in use");
 
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-  console.log(password);
+  // console.log(password);
   const newUser = new User({
     username,
     email,
@@ -96,9 +96,9 @@ export const getUserInfo = asyncHandler(async (req, res) => {
   }
   const findUser = await User.findById(user.id);
   const order = await Order.find({userId: user.id}).populate("productId");
-  console.log("Order : ", order);
+  // console.log("Order : ", order);
   const address = await Address.find({userId: user.id});
-  console.log("Address : ", address);
+  // console.log("Address : ", address);
   if (!findUser) {
     return res.status(404).json({message: "User not found"});
   }
@@ -142,7 +142,7 @@ export const currentUser = asyncHandler(async (req, res) => {
 export const profile = asyncHandler(async (req, res) => {
   const userId = req?.user.id;
   const user = await User.findOne({_id: userId}).select("-password");
-  console.log(user);
+  // console.log(user);
   if (!user) {
     return res.status(404).json("User not logged in");
   }
