@@ -1,6 +1,7 @@
 import React from "react";
 import Courosel from "../Components/Courosel/Courosel.jsx";
 import Category from "../Components/Category/Category.jsx";
+import CustomToastContainer from "./../Components/Toastify/CustomToastContainer";
 
 function Home() {
   const images = [
@@ -23,6 +24,7 @@ function Home() {
     <>
       <Courosel images={images} />
       <Category />
+      <CustomToastContainer />
     </>
   );
 }

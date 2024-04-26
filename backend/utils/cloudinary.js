@@ -22,8 +22,16 @@ export const uploadOnCloudinary = async (localFilePath) => {
 
     return res;
   } catch (err) {
+    console.error("Error uploading to Cloudinary:", err);
     return null;
   } finally {
-    fs.unlinkSync(localFilePath);
+    // Check if the file exists before attempting to unlink it
+    if (fs.existsSync(localFilePath)) {
+      try {
+        fs.unlinkSync(localFilePath);
+      } catch (unlinkErr) {
+        console.error("Error deleting file:", unlinkErr);
+      }
+    }
   }
 };

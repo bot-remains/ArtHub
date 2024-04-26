@@ -4,6 +4,9 @@ import axios from "axios";
 import Input from "../Components/Input/Input";
 import Button from "../Components/Button/Button";
 import {IoHomeOutline} from "react-icons/io5";
+import ReactLoading from "react-loading";
+import CustomToastContainer from "./../Components/Toastify/CustomToastContainer";
+import {toast} from "react-toastify";
 
 function UploadArt() {
   const [data, setData] = useState({
@@ -11,6 +14,7 @@ function UploadArt() {
     description: "",
     image: null,
   });
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
     setData({
@@ -19,25 +23,39 @@ function UploadArt() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     const formData = new FormData();
     formData.append("postName", data.postName);
     formData.append("description", data.description);
     formData.append("image", data.image);
-    axios
-      .post("http://localhost:3000/api/v1/post/createPost", formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/post/createPost",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
+      );
+      console.log(response);
+      toast.success("Post created successfully");
+      setData({
+        postName: "",
+        description: "",
+        image: null,
       });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to create post");
+    } finally {
+      setLoading(false); // Reset loading state after submission
+    }
   };
 
   const handleData = (e) => {
@@ -50,6 +68,17 @@ function UploadArt() {
 
   return (
     <div className="w-full h-screen flex justify-center items-center text-white">
+      <CustomToastContainer />
+      {loading && (
+        <div className="flex justify-center items-center absolute inset-0 bg-gray-900 bg-opacity-50 z-50">
+          <ReactLoading
+            type={"spin"}
+            color={"#123456"}
+            height={50}
+            width={50}
+          />
+        </div>
+      )}
       <div className="relative text-white rounded-lg border-2 border-zinc-600 p-10 w-[707.2px]">
         <Link
           to="/"
@@ -105,7 +134,8 @@ function UploadArt() {
               </div>
             </section>
           </div>
-          <Button text={"Submit"} />
+          {/* <Button text={"Submit"} disabled={loading} />{" "} */}
+          {!loading && <Button text="Submit" type="submit" />}
         </form>
       </div>
     </div>

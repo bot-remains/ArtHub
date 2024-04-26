@@ -39,7 +39,7 @@ const router = createBrowserRouter(
       <Route path="my-arts" element={<MyArts />} />
       <Route path="contact" element={<Contact />} />
       <Route path="upload-new-art" element={<UploadArt />} />
-      <Route path="art" element={<Art />} />
+      <Route path="art/:id" element={<Art />} />
     </Route>,
   ),
 );

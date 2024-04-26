@@ -5,6 +5,7 @@ import Button from "../Components/Button/Button";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setProfile} from "../Components/redux/profile/profile.js";
+import CustomToastContainer from "./../Components/Toastify/CustomToastContainer";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -34,6 +35,8 @@ function Profile() {
 
   return (
     <div className="w-full px-10 py-5 text-white flex justify-center gap-6">
+      <CustomToastContainer />
+
       <div className="rounded-md w-[25%] h-fit bg-zinc-900 p-4 sticky">
         <h1 className="text-2xl line-clamp-1">{profile?.username}</h1>
         <hr className="border-secondary border rounded mb-3 mt-2" />
