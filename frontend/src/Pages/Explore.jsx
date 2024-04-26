@@ -10,7 +10,7 @@ import CustomToastContainer from "./../Components/Toastify/CustomToastContainer"
 
 function Explore() {
   return (
-    <div className="w-full px-10 py-5 text-white flex justify-center gap-6 relative">
+    <div className="w-full  py-5 text-white flex justify-center gap-6 relative">
       <div className="flex flex-col w-[80%]">
         <div className="pt-5 w-full">
           <MasonryGrid />

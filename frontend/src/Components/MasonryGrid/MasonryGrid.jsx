@@ -40,7 +40,7 @@ function MasonryGrid() {
 
   let containerRef = useRef(null);
   let [containerWidth, setContainerWidth] = useState(0);
-  let numberOfColumns = 3;
+  let numberOfColumns = 4;
   const [columnWidth, setColumnWidth] = useState(0);
   const [gutterWidthPx, setGutterWidthPx] = useState(0);
   let gutterWidth = 0.01;
@@ -84,7 +84,7 @@ function MasonryGrid() {
         card.map((cardItem, i) => (
           <div
             key={i}
-            className="grid-item border-[10px] cursor-pointer relative group/card"
+            className="grid-item border-[5px] cursor-pointer relative group/card"
             onClick={() => {
               showProduct(cardItem._id);
             }}

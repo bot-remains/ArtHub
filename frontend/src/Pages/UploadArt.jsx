@@ -67,75 +67,63 @@ function UploadArt() {
   };
 
   return (
-    <div className="w-full h-screen flex justify-center items-center text-white">
+    <div className="w-full h-screen flex justify-center items-center bg-black text-white">
       <CustomToastContainer />
       {loading && (
-        <div className="flex justify-center items-center absolute inset-0 bg-gray-900 bg-opacity-50 z-50">
-          <ReactLoading
-            type={"spin"}
-            color={"#123456"}
-            height={50}
-            width={50}
-          />
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+          <ReactLoading type={"spin"} color={"#fff"} height={50} width={50} />
         </div>
       )}
-      <div className="relative text-white rounded-lg border-2 border-zinc-600 p-10 w-[707.2px]">
+      <div className="relative rounded-lg border-2 border-gray-600 p-10 max-w-lg w-full">
         <Link
           to="/"
-          className="absolute top-5 right-5 border-[2px] border-zinc-400 rounded-full w-fit p-[8px] flex items-center justify-center cursor-pointer group hover:border-secondary"
+          className="absolute top-5 right-5 border-2 border-gray-400 rounded-full w-fit p-2 flex items-center justify-center cursor-pointer group hover:border-secondary"
         >
           <IoHomeOutline className="group-hover:text-secondary" />
         </Link>
-        <div className="w-fit">
-          <h1 className="text-4xl">Upload Art</h1>
-          <hr className="border-secondary border rounded" />
+        <div className="w-full text-center mb-6">
+          <h1 className="text-4xl font-bold">Upload Art</h1>
+          <hr className="border-secondary mt-4 mx-auto" />
         </div>
-        <form onSubmit={handleSubmit} className="mt-10">
-          <div>
-            <section className="flex gap-6">
-              <div className="flex flex-col gap-3 w-[300px]">
-                <Input
-                  label={"Heading"}
-                  type={"text"}
-                  placeholder={"Enter the Heading for your art"}
-                  value={data.postName}
-                  handler={handleData}
-                  name={"postName"}
-                />
-                <div>
-                  <label htmlFor="About" className="block text-white text-lg">
-                    About
-                  </label>
-                  <textarea
-                    id="About"
-                    value={data.description}
-                    onChange={handleData}
-                    className="mt-1 block w-full p-3 bg-zinc-900 border border-zinc-600 rounded-md resize-none focus:outline-none"
-                    placeholder="About your art"
-                    rows="3"
-                    name="description"
-                  ></textarea>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 w-[300px]">
-                <div>
-                  <label htmlFor="Image" className="block text-white text-lg">
-                    Image
-                  </label>
-                  <input
-                    type="file"
-                    id="image"
-                    onChange={handleFileChange}
-                    accept="image/*"
-                    className="mt-1 block w-full p-3 bg-zinc-900 border border-zinc-600 rounded-md focus:outline-none"
-                    name="image"
-                  />
-                </div>
-              </div>
-            </section>
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-4">
+            <Input
+              label="Heading"
+              type="text"
+              placeholder="Enter the Heading for your art"
+              value={data.postName}
+              handler={handleData}
+              name="postName"
+            />
+            <div>
+              <label htmlFor="About" className="block text-lg">
+                About
+              </label>
+              <textarea
+                id="About"
+                value={data.description}
+                onChange={handleData}
+                className="mt-1 block w-full p-3 bg-zinc-900 border border-gray-600 rounded-md resize-none focus:outline-none text-white"
+                placeholder="About your art"
+                rows="3"
+                name="description"
+              ></textarea>
+            </div>
+            <div>
+              <label htmlFor="Image" className="block text-lg">
+                Image
+              </label>
+              <input
+                type="file"
+                id="image"
+                onChange={handleFileChange}
+                accept="image/*"
+                className="mt-2 mb-4 block w-full p-3 bg-zinc-900 border border-gray-600 rounded-md focus:outline-none text-white"
+                name="image"
+              />
+            </div>
           </div>
-          {/* <Button text={"Submit"} disabled={loading} />{" "} */}
-          {!loading && <Button text="Submit" type="submit" />}
+          <Button text="Submit" type="submit" disabled={loading} />
         </form>
       </div>
     </div>

@@ -47,14 +47,14 @@ function Profile() {
           ></div>
         </h2>
         <p className="px-2 mt-4">{profile?.email}</p>
-        <div className="w-full flex justify-around mt-4">
+        {/* <div className="w-full flex justify-around mt-4">
           <div className="w-[45%]">
             <Button text={"Update"} />
           </div>
           <div className="w-[45%]">
             <Button text={"Delete"} />
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col w-[70%]">
         <div className="rounded-md bg-zinc-900 p-4 flex justify-between items-center text-2xl">
