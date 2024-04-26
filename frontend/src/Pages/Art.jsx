@@ -61,11 +61,11 @@ function Art() {
         responseType: "blob",
       });
       const blob = new Blob([response.data]);
-      const uuid = uuidv4(); // Generate UUID for filename
+      const uuid = uuidv4();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `${uuid}.jpg`); // Set filename with UUID
+      link.setAttribute("download", `${uuid}.jpg`);
       document.body.appendChild(link);
       link.click();
       link.parentNode.removeChild(link);
